@@ -47,4 +47,20 @@ public:
         }
         return head;
     }
+
+    /* Short solution */
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *ans = new ListNode(0);
+        ListNode *head = ans;
+        int carry = 0;
+        while(l1 || l2 || carry) {
+            int sum = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + carry;
+            carry = sum / 10;
+            ans->next = new ListNode(sum % 10);
+            ans = ans->next;
+            l1 = l1 ? l1->next : NULL;
+            l2 = l2 ? l2->next : NULL;
+        }
+        return head->next;
+    }
 };
