@@ -46,4 +46,34 @@ public:
 
         return head->next;
     }
+
+    /* Merge Sort */
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        return partion(lists, 0, lists.size()-1);
+    }
+    
+    ListNode* partion(vector<ListNode*>& lists, int l, int r) {
+        if (l == r)
+            return lists[l];
+        else if (l < r) {
+            int mid = (l + r) / 2;
+            ListNode* left = partion(lists, l, mid);
+            ListNode* right = partion(lists, mid+1, r);
+            return merge(left, right);
+        } else {
+            return NULL;
+        }
+    }
+    
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        if (l1 == NULL) return l2;
+        if (l2 == NULL) return l1;
+        if (l1->val < l2->val) {
+            l1->next = merge(l1->next, l2);
+            return l1;
+        } else  {
+            l2->next = merge(l1, l2->next);
+            return l2;
+        }
+    }
 };
