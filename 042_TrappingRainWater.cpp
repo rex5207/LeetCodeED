@@ -11,7 +11,7 @@
  *
  *  Memory Usage: 14.4 MB, less than 25.95% of C++
  *
- *  Note: 
+ *  Note: Need to know all solutions
  *
  ***********************************************************************/ 
 
@@ -36,6 +36,31 @@ public:
         
         for (int i=1; i<len-1; i++) {
             ans += min(left_max[i], right_max[i]) - height[i];
+        }
+        return ans;
+    }
+
+
+    /* Monotonic Stack */
+    int trap(vector<int>& height) {
+        int len = height.size();
+        int ans = 0;
+        int cur = 0;
+        stack<int> st;
+        while (cur < len) {
+            while (!st.empty() && height[cur] > height[st.top()]) {
+                int top = st.top();
+                st.pop();
+                if (st.empty())
+                    break;
+                // height[st.top()] => Left Wall
+                // height[cur] => Right Wall
+                // height[top] => Middle Floow 凹
+                int dis = cur - st.top() - 1;
+                int lower_bound = min(height[st.top()], height[cur]) - height[top];
+                ans += dis * lower_bound;
+            }
+            st.push(cur++);
         }
         return ans;
     }
